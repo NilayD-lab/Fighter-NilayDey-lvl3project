@@ -1,0 +1,55 @@
+#info{
+    display: flex;
+    justify-content: space-between;
+}
+
+.bars{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    font-size: 1.6rem;
+}
+.bar{
+    display: inline-block;
+    width: 200px; 
+    height: 20px; 
+    border: solid black 2px; 
+
+    display: inline-block; 
+    position: relative; 
+    top: 3px;
+    direction: rtl;
+
+}
+#player1-bars div .bar::after{
+    content: "4";
+    position: absolute;
+    left: 108%;
+    top: -3px;
+}
+#player1-bars div .bar::before{
+    content: "";
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background-color: blueviolet;
+    left: 0%;
+   
+}
+#player2-bars div .bar::after{
+    content: "4";
+    position: absolute;
+    left: -15%;
+    top: -3px;
+}
+#player2-bars div .bar::before{
+    content: "";
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background-color: blueviolet;
+    left: 50%;
+    direction: ltr;
+    
+   
+}
