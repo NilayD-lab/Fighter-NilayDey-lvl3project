@@ -1,6 +1,12 @@
+body{
+    background-color: seashell;
+}
+
 #info{
     display: flex;
     justify-content: space-between;
+    margin-left: 40px;
+    margin-right: 40px;
 }
 
 .bars{
@@ -13,12 +19,10 @@
     display: inline-block;
     width: 200px; 
     height: 20px; 
-    border: solid black 2px; 
-
+    border: solid black 2px;
     display: inline-block; 
     position: relative; 
     top: 3px;
-    direction: rtl;
 
 }
 #player1-bars div .bar::after{
@@ -33,7 +37,8 @@
     width: 50%;
     height: 100%;
     background-color: #6AA5F5;
-    left: 0%;
+    left: 0%;   
+    transition: width 300ms;
    
 }
 #player2-bars div .bar::after{
@@ -43,11 +48,62 @@
     top: -3px;
 }
 #player2-bars div .bar::before{
+    --width: 50%;
     content: "";
     position: absolute;
-    width: 50%;
+    width: var(--width);
     height: 100%;
     background-color: #EE4E38;
-    left: 50%;
-    direction: ltr;
+    left: calc(100% - var(--width));
+    transition: var(--width) 300ms;
+}
+#log{
+    transform: translateY(10px);
+    width: 500px;
+    height: 300px;
+    overflow: hidden;
+    text-align: center;
+    white-space: scroll;
+    border-radius: 5%;
+    box-shadow: 0px 0px 0px 3px seashell;
+    transition: box-shadow 500ms linear;
+}
+#log:hover{
+    box-shadow: 0px 0px 40px 5px white;
+}
+#log p{
+    font-size: larger;
+    color: red;
+}
+
+
+.image-container{
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+}
+#kid2-container{
+    top: 45vh;
+    left: 75vw;
+    height: 400px;
+}
+#kid1-container{
+    top: 45vh;
+    left: 5vw;
+}
+
+h1{
+    position: absolute;
+    font-size: 10rem;
+    color: darkred;
+    top: 30vh;
+    left: 35vw;
+    opacity: 1;
+    cursor: pointer;
+}
+h1:hover{
+    opacity: .7;
 }
