@@ -1,3 +1,4 @@
+
 body{
     background-color: seashell;
 }
@@ -14,19 +15,24 @@ body{
     flex-direction: row;
     gap: 20px;
     font-size: 1.6rem;
+    height: 20px; 
+
 }
 .bar{
     display: inline-block;
     width: 200px; 
-    height: 20px; 
+    height: 100%; 
     border: solid black 2px;
     display: inline-block; 
     position: relative; 
     top: 3px;
+    --width: 50%;
+    --value: "0";
+
 
 }
 #player1-bars div .bar::after{
-    content: "4";
+    content: var(--value);
     position: absolute;
     left: 108%;
     top: -3px;
@@ -42,13 +48,13 @@ body{
    
 }
 #player2-bars div .bar::after{
-    content: "4";
+    content: var(--value);
     position: absolute;
     left: -15%;
     top: -3px;
 }
 #player2-bars div .bar::before{
-    --width: 50%;
+    
     content: "";
     position: absolute;
     width: var(--width);
@@ -106,4 +112,31 @@ h1{
 }
 h1:hover{
     opacity: .7;
+}
+h3{
+    text-align: center;
+    font-size: x-large;
+}
+#move-container{
+    position: absolute;
+    background-color: white;
+    border: solid black 10px;
+    width: 35vw;
+    height: 30vh;
+    left: 33%;
+    top: 50%;
+}
+ol{
+    text-align: center;
+    width: 50%;
+    margin-left: 20%;
+}
+li{
+    font-weight: bold;
+    margin-bottom: 10%;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+li:hover{
+    text-decoration: underline;
 }
