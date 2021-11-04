@@ -1,8 +1,16 @@
 let bars=  document.querySelectorAll(".bar")
 let attackMove = document.getElementById('attack')
 let defenseMove = document.getElementById('defense')
-let stats = [15, 15, 15, 15, 15, 15, 15, 15]
-
+let originalStats = []
+let stats = []
+for (let i=0;i<8;i++){
+    originalStats.push(Math.floor(Math.random()*10))
+   
+}
+for (let i=0;i<8;i++){
+    stats.push[originalStats[i]]
+}
+console.log(stats)
 
 function updateStats(){
     for (let i=0;i<bars.length;i++){
