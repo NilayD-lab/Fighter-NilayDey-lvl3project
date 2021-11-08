@@ -2,43 +2,55 @@ let bars = document.querySelectorAll(".bar")
 let attackMove = document.getElementById('attack')
 let defenseMove = document.getElementById('defense')
 let originalStats = []
-let maxStats = [8, 8, 8, 30, 8, 8, 8, 30]
-let stats = [6, 6, 6, 30, 6, 6, 6, 30]
+let maxStats = []
+let stats = []
 let movesList = document.getElementById('move-container').querySelector('ol')
 let finisherButton = document.getElementById('finisher')
+let fightButton = document.querySelector('h1')
+let movesContainer = document.getElementById('move-container')
+movesContainer.remove()
 finisherButton.remove()
-let random = Math.random() > .5
-for (let i = 0; i < 8; i++) {
-    if (i == 3 || i == 7) {
-        stats[i] += !random ? 6 : 0
-        maxStats[i] += !random ? 6 : 0
-    }
-    else {
-        if (i % 2 == 0) {
-            stats[i] += random ? 1 : 0
+
+fightButton.onclick = ()=>{
+    maxStats = [9, 9, 9, 30, 9, 9, 9, 30]
+    stats = [6, 6, 6, 30, 6, 6, 6, 30]
+    fightButton.remove()
+    document.body.appendChild(movesContainer)
+    let random = Math.random() > .5
+    for (let i = 0; i < 8; i++) {
+        if (i == 3 || i == 7) {
+            stats[i] += !random ? 6 : 0
+            maxStats[i] += !random ? 6 : 0
         }
         else {
-            stats[i] += !random ? 1 : 0
+            if (i % 2 == 0) {
+                stats[i] += random ? 1 : 0
+            }
+            else {
+                stats[i] += !random ? 1 : 0
 
+            }
         }
     }
+    originalStats[0] = stats[3]
+    originalStats[1] = stats[7]
+    updateStats()
 }
-originalStats[0] = stats[0]
-originalStats[1] = stats[1]
-
-
-updateStats()
 attackMove.onclick = () => {
-    let billydef = Math.random() < .5
+    let billydef = Math.random() < 0
     if (stats[3] > Math.floor(stats[7] / 2)) {
         stats[3] = !billydef ? calcAtk("Billy") > calcDef("Tommy", false) ? stats[3] - Math.abs(calcDef("Tommy", false) - calcAtk("Billy")) : (stats[3] + rand(1, 6)) : (stats[3] + rand(1, 6))
         stats[3] = stats[3] < 0 ? 0 : stats[3]
         stats[3] = stats[3] > maxStats[3] ? maxStats[3] : stats[3]
+        console.log(billydef ? "Defended" : "Attacked")
 
     }
     else {
         stats[3] = calcFinisher("Billy") > calcDef("Tommy", false) ? 0 : stats[3]
         billydef = false
+        console.log("finisher")
+
+
     }
     stats[7] = calcAtk("Tommy") > calcDef("Billy", billydef) ? stats[7] - Math.abs(calcDef("Billy", billydef) - calcAtk("Tommy")) : (stats[7] + rand(1, 6)) > maxStats[7] ? maxStats[7] : (stats[7] + rand(1, 6))
     stats[7] = stats[7] < 0 ? 0 : stats[7]
@@ -54,14 +66,17 @@ attackMove.onclick = () => {
     updateStats()
 }
 defenseMove.onclick = () => {
-    let billydef = Math.random() < .5
+    let billydef = Math.random() < 0
     if (stats[3] > Math.floor(stats[7] / 2)) {
         stats[3] = !billydef ? calcAtk("Billy") > calcDef("Tommy", true) ? stats[3] - Math.abs(calcDef("Tommy", true) - calcAtk("Billy")) : (stats[3] + rand(1, 6)) : (stats[3] + rand(1, 6))
         stats[3] = stats[3] < 0 ? 0 : stats[3]
         stats[3] = stats[3] > maxStats[3] ? maxStats[3] : stats[3]
+        console.log(billydef ? "Defended" : "Attacked")
+        
     }
     else {
-        stats[3] = calcFinisher("Billy") > calcDef("Tommy", false) ? 0 : stats[3]
+        stats[3] = calcFinisher("Billy") > calcDef("Tommy", false) ? 0 : stats[3]+rand(1, 6)
+        console.log("finisher")
     }
     stats[7] += rand(1, 6)
     stats[7] = stats[7] > maxStats[7] ? maxStats[7] : stats[7]
@@ -71,10 +86,11 @@ defenseMove.onclick = () => {
     updateStats()
 
 }
+
 function giveFinisherFunction() {
     finisherButton.onclick = () => {
-        let billydef = Math.random() < .5
-        stats[7] = calcFinisher("Tommy") > calcDef("Billy", billydef) ? 0 : stats[7]
+        let billydef = Math.random() < 0
+        stats[7] = calcFinisher("Tommy") > calcDef("Billy", billydef) ? 0 : stats[7]+rand(1, 6)
         if (stats[3] > Math.floor(stats[7] / 2)) {
             stats[3] = !billydef ? calcAtk("Billy") > calcDef("Tommy", false) ? stats[3] - Math.abs(calcDef("Tommy", false) - calcAtk("Billy")) : (stats[3] + rand(1, 6)) : (stats[3] + rand(1, 6))
             stats[3] = stats[3] < 0 ? 0 : stats[3]
@@ -109,35 +125,47 @@ function display() {
     updateStats()
 }
 function updateStats() {
-    if (bars[3] <= originalStats[0] - 5) {
+    if (stats[3] <= originalStats[0] - 5) {
         for (let i = 0; i < 3; i++) {
-            bars[i]--
+            stats[i]--
         }
-        originalStats[0] -= 5
+        originalStats[0] = stats[3]
     }
-    else if (bars[3] >= originalStats[0] + 5) {
+    else if (stats[3] >= originalStats[0] + 5) {
         for (let i = 0; i < 3; i++) {
-            bars[i]++
+            stats[i]++
         }
-        originalStats[0] += 5
+        originalStats[0] = stats[3]
     }
-    if (bars[7] <= originalStats[2] - 5) {
+    if (stats[7] <= originalStats[1] - 5) {
         for (let i = 4; i < 7; i++) {
-            bars[i]--
+            stats[i]--
         }
-        originalStats[7] -= 5
+        originalStats[1] = stats[7]
 
     }
-    else if (bars[7] >= originalStats[2] + 5) {
+    else if (stats[7] >= originalStats[1] + 5) {
         for (let i = 4; i < 7; i++) {
-            bars[i]++
+            stats[i]++
         }
-        originalStats[7] += 5
+        originalStats[1] = stats[7]
     }
     for (let i = 0; i < bars.length; i++) {
         setStatValue(i, stats[i])
     }
-
+    if (stats[3]==0){
+        showResults("Billy")   
+    }
+    if (stats[7]==0){
+        showResults("Tommy")   
+    }
+}
+function showResults(player){
+    document.body.appendChild(fightButton)
+    fightButton.innerHTML = player+" won"
+    fightButton.style.fontSize = '7rem'
+    finisherButton.remove()
+    movesContainer.remove()
 }
 function getStatValue(bar) {
     return getComputedStyle(bar).getPropertyValue('--value')

@@ -5,7 +5,7 @@
     user-select: none; /* Standard */
 }
 body{
-    background-color: darkgray;
+    background-color: seashell;
 }
 
 #info{
@@ -122,6 +122,13 @@ h1:hover{
 h3{
     text-align: center;
     font-size: x-large;
+    
+}
+#kid1-container h3{
+    color: #6AA5F5;
+}
+#kid2-container h3{
+    color: #EE4E38;
 }
 #move-container{
     position: absolute;
