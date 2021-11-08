@@ -1,4 +1,9 @@
-
+:root{
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
 body{
     background-color: seashell;
 }
@@ -40,7 +45,7 @@ body{
 #player1-bars div .bar::before{
     content: "";
     position: absolute;
-    width: 50%;
+    width: var(--width);
     height: 100%;
     background-color: #6AA5F5;
     left: 0%;   
@@ -61,7 +66,8 @@ body{
     height: 100%;
     background-color: #EE4E38;
     left: calc(100% - var(--width));
-    transition: var(--width) 300ms;
+    transition: width 300ms, left 300ms;
+    
 }
 #log{
     transform: translateY(10px);
