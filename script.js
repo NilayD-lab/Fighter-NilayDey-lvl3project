@@ -4,6 +4,16 @@ let defenseMove = document.getElementById('defense')
 let originalStats = []
 let maxStats = []
 let stats = []
+/*
+    stats[0] = player 1 strength
+    stats[1] = player 1 cunning
+    stats[2] = player 1 speed
+    stats[3] = player 1 fatigue
+    stats[4] = player 2 strength
+    stats[5] = player 2 cunning
+    stats[6] = player 2 speed
+    stats[7] = player 2 fatigue
+*/
 let movesList = document.getElementById('move-container').querySelector('ol')
 let finisherButton = document.getElementById('finisher')
 let fightButton = document.querySelector('h1')
@@ -36,67 +46,51 @@ fightButton.onclick = ()=>{
     originalStats[1] = stats[7]
     updateStats()
 }
+
+
 attackMove.onclick = () => {
-    let billydef = Math.random() < .5
-    if (stats[3] > Math.floor(stats[7] / 2)) {
-        stats[3] = !billydef ? calcAtk("Billy") > calcDef("Tommy", false) ? stats[3] - Math.abs(calcDef("Tommy", false) - calcAtk("Billy")) : (stats[3] + rand(1, 6)) : (stats[3] + rand(1, 6))
-        stats[3] = stats[3] < 0 ? 0 : stats[3]
-        stats[3] = stats[3] > maxStats[3] ? maxStats[3] : stats[3]
-        console.log(billydef ? "Defended" : "Attacked")
-
-    }
-    else {
-        stats[3] = calcFinisher("Billy") > calcDef("Tommy", false) ? 0 : stats[3]
-        billydef = false
-        console.log("finisher")
-
-
-    }
+    let billydef = billyAtk(false)
     stats[7] = calcAtk("Tommy") > calcDef("Billy", billydef) ? stats[7] - Math.abs(calcDef("Billy", billydef) - calcAtk("Tommy")) : (stats[7] + rand(1, 6)) > maxStats[7] ? maxStats[7] : (stats[7] + rand(1, 6))
     stats[7] = stats[7] < 0 ? 0 : stats[7]
     stats[7] = stats[7] > maxStats[7] ? maxStats[7] : stats[7]
-    console.log(stats[7] < Math.floor(stats[3] / 2))
     
     updateStats()
 }
 defenseMove.onclick = () => {
-    let billydef = Math.random() < 0.5
-    if (stats[3] > Math.floor(stats[7] / 2)) {
-        stats[3] = !billydef ? calcAtk("Billy") > calcDef("Tommy", true) ? stats[3] - Math.abs(calcDef("Tommy", true) - calcAtk("Billy")) : (stats[3] + rand(1, 6)) : (stats[3] + rand(1, 6))
-        stats[3] = stats[3] < 0 ? 0 : stats[3]
-        stats[3] = stats[3] > maxStats[3] ? maxStats[3] : stats[3]
-        console.log(billydef ? "Defended" : "Attacked")
-        
-    }
-    else {
-        stats[3] = calcFinisher("Billy") > calcDef("Tommy", false) ? 0 : stats[3]+rand(1, 6)
-        console.log("finisher")
-    }
+    billyAtk(true)
     stats[7] += rand(1, 6)
     stats[7] = stats[7] > maxStats[7] ? maxStats[7] : stats[7]
-    if (stats[7] > Math.floor(stats[3] / 2)) {
-        finisherButton.remove()
-    }
     updateStats()
 
 }
 
+
+
 function giveFinisherFunction() {
     finisherButton.onclick = () => {
-        let billydef = Math.random() < .5
+        let billydef = billyAtk(false)
         stats[7] = calcFinisher("Tommy") > calcDef("Billy", billydef) ? 0 : stats[7]+rand(1, 6)
-        if (stats[3] > Math.floor(stats[7] / 2)) {
-            stats[3] = !billydef ? calcAtk("Billy") > calcDef("Tommy", false) ? stats[3] - Math.abs(calcDef("Tommy", false) - calcAtk("Billy")) : (stats[3] + rand(1, 6)) : (stats[3] + rand(1, 6))
-            stats[3] = stats[3] < 0 ? 0 : stats[3]
-            stats[3] = stats[3] > maxStats[3] ? maxStats[3] : stats[3]
-        }
-        else {
-            stats[3] = calcFinisher("Billy") > calcDef("Tommy", false) ? 0 : stats[3]
-            billydef = false
-        }
+        
         updateStats()
 
     }
+}
+function billyAtk(tommyDef){
+    let billydef = Math.random() < 0.5
+    if (stats[3] > Math.floor(stats[7] / 2)) {
+        stats[3] = !billydef ? calcAtk("Billy") > calcDef("Tommy", tommyDef) ? stats[3] - Math.abs(calcDef("Tommy", tommyDef) - calcAtk("Billy")) : (stats[3] + rand(1, 6)) : (stats[3] + rand(1, 6))
+        stats[3] = stats[3] < 0 ? 0 : stats[3]
+        stats[3] = stats[3] > maxStats[3] ? maxStats[3] : stats[3]
+        console.log(billydef ? "Defended" : "Attacked")
+
+    }
+    else {
+        stats[3] = calcFinisher("Billy") > calcDef("Tommy", tommyDef) ? 0 : stats[3]
+        
+        console.log("finisher")
+        return false
+    }
+    return billydef
 }
 function calcFinisher(player) {
     let shift = player == "Tommy" ? 0 : 4
@@ -112,12 +106,10 @@ function calcAtk(player) {
 }
 function calcDef(player, onDefense) {
     let shift = player == "Tommy" ? 0 : 4
-    return onDefense ? stats[2 + shift] + rand(1, 6) : stats[2 + shift] + stats[1 + shift]
+    return onDefense ? stats[2 + shift] + stats[1 + shift] : stats[2 + shift] + rand(1, 6)
 }
 
-function display() {
-    updateStats()
-}
+
 function updateStats() {
     if (stats[3] <= originalStats[0] - 5) {
         for (let i = 0; i < 3; i++) {
