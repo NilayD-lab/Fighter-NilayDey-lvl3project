@@ -22,7 +22,7 @@ movesContainer.remove()
 finisherButton.remove()
 
 fightButton.onclick = ()=>{
-    maxStats = [9, 9, 9, 30, 9, 9, 9, 30]
+    maxStats = [10, 10, 10, 30, 10, 10, 10, 30]
     stats = [6, 6, 6, 30, 6, 6, 6, 30]
     fightButton.remove()
     document.body.appendChild(movesContainer)
@@ -76,7 +76,7 @@ function giveFinisherFunction() {
     }
 }
 function billyAtk(tommyDef){
-    let billydef = Math.random() < 0.5
+    let billydef = Math.random() < 0
     if (stats[3] > Math.floor(stats[7] / 2)) {
         stats[3] = !billydef ? calcAtk("Billy") > calcDef("Tommy", tommyDef) ? stats[3] - Math.abs(calcDef("Tommy", tommyDef) - calcAtk("Billy")) : (stats[3] + rand(1, 6)) : (stats[3] + rand(1, 6))
         stats[3] = stats[3] < 0 ? 0 : stats[3]
