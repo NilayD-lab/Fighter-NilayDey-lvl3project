@@ -37,7 +37,7 @@ fightButton.onclick = ()=>{
     updateStats()
 }
 attackMove.onclick = () => {
-    let billydef = Math.random() < 0
+    let billydef = Math.random() < .5
     if (stats[3] > Math.floor(stats[7] / 2)) {
         stats[3] = !billydef ? calcAtk("Billy") > calcDef("Tommy", false) ? stats[3] - Math.abs(calcDef("Tommy", false) - calcAtk("Billy")) : (stats[3] + rand(1, 6)) : (stats[3] + rand(1, 6))
         stats[3] = stats[3] < 0 ? 0 : stats[3]
@@ -55,18 +55,12 @@ attackMove.onclick = () => {
     stats[7] = calcAtk("Tommy") > calcDef("Billy", billydef) ? stats[7] - Math.abs(calcDef("Billy", billydef) - calcAtk("Tommy")) : (stats[7] + rand(1, 6)) > maxStats[7] ? maxStats[7] : (stats[7] + rand(1, 6))
     stats[7] = stats[7] < 0 ? 0 : stats[7]
     stats[7] = stats[7] > maxStats[7] ? maxStats[7] : stats[7]
-    if (stats[7] < Math.floor(stats[3] / 2)) {
-        movesList.appendChild(finisherButton)
-        giveFinisherFunction()
-    }
-    else {
-        finisherButton.remove()
-
-    }
+    console.log(stats[7] < Math.floor(stats[3] / 2))
+    
     updateStats()
 }
 defenseMove.onclick = () => {
-    let billydef = Math.random() < 0
+    let billydef = Math.random() < 0.5
     if (stats[3] > Math.floor(stats[7] / 2)) {
         stats[3] = !billydef ? calcAtk("Billy") > calcDef("Tommy", true) ? stats[3] - Math.abs(calcDef("Tommy", true) - calcAtk("Billy")) : (stats[3] + rand(1, 6)) : (stats[3] + rand(1, 6))
         stats[3] = stats[3] < 0 ? 0 : stats[3]
@@ -89,7 +83,7 @@ defenseMove.onclick = () => {
 
 function giveFinisherFunction() {
     finisherButton.onclick = () => {
-        let billydef = Math.random() < 0
+        let billydef = Math.random() < .5
         stats[7] = calcFinisher("Tommy") > calcDef("Billy", billydef) ? 0 : stats[7]+rand(1, 6)
         if (stats[3] > Math.floor(stats[7] / 2)) {
             stats[3] = !billydef ? calcAtk("Billy") > calcDef("Tommy", false) ? stats[3] - Math.abs(calcDef("Tommy", false) - calcAtk("Billy")) : (stats[3] + rand(1, 6)) : (stats[3] + rand(1, 6))
@@ -159,6 +153,13 @@ function updateStats() {
     if (stats[7]==0){
         showResults("Tommy")   
     }
+    if (stats[7] < Math.floor(stats[3] / 2)) {
+        movesList.appendChild(finisherButton)
+        giveFinisherFunction()
+    }
+    else {
+        finisherButton.remove()
+    }
 }
 function showResults(player){
     document.body.appendChild(fightButton)
@@ -178,3 +179,4 @@ function setStatValue(num, val) {
 
 }
 
+ 
